@@ -48,7 +48,7 @@ class Lecturer (Mentor):
         self.grades = {}
 
     def average_grade(self):
-        self.average = sum(sum(self.grades.values(),[]))/len(sum(self.grades.values(),[]))
+        self.average = round(sum(sum(self.grades.values(),[]))/len(sum(self.grades.values(),[])))
         return self.average
 
     def __lt__(self, other):
@@ -83,17 +83,52 @@ class Reviewer (Mentor):
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
 best_student.finished_courses += ['Введение в программирование']
+maxim_student = Student('Maxim', 'Melnikov', 'your_gender')
+maxim_student.courses_in_progress += ['Python']
  
 liza_lecturer = Lecturer('Liza', 'Buddy')
 liza_lecturer.courses_attached += ['Python']
+Viktor_lecturer = Lecturer('Viktor', 'Zyev')
+Viktor_lecturer.courses_attached += ['Python']
 
 Vasya_reviewer = Reviewer('Vasya', 'Okyshkin')
 Vasya_reviewer.courses_attached += ['Python']
+Nastya_reviewer = Reviewer('Nastya', 'Klimova')
+Nastya_reviewer.courses_attached += ['Python']
 
 Vasya_reviewer.rate_student(best_student, 'Python', 10)
-Vasya_reviewer.rate_student(best_student, 'Python', 8)
+Nastya_reviewer.rate_student(best_student, 'Python', 8)
+Vasya_reviewer.rate_student(maxim_student, 'Python', 7)
+Nastya_reviewer.rate_student(maxim_student, 'Python', 9)
 best_student.rate_lecturer(liza_lecturer, 'Python', 8)
+maxim_student.rate_lecturer(Viktor_lecturer, 'Python', 10)
+best_student.rate_lecturer(Viktor_lecturer, 'Python', 7)
+maxim_student.rate_lecturer(liza_lecturer, 'Python', 10)
 
+best_student.average_grade()
+maxim_student.average_grade()
+print(maxim_student < best_student)
 print(best_student)
-print(Vasya_reviewer)
+
+liza_lecturer.average_grade()
+Viktor_lecturer.average_grade()
+print(liza_lecturer < Viktor_lecturer)
 print(liza_lecturer)
+
+student_list = [maxim_student, best_student]
+subject_python_student = []
+for student in student_list:
+    for subject, grade in student.grades.items():
+        subject_python_student.append(grade)
+s_python = sum(sum(subject_python_student,[]))/len(sum(subject_python_student,[]))  
+
+lecturer_list = [liza_lecturer, Viktor_lecturer]
+subject_python_lecturer = []
+for lecturer in lecturer_list:
+    for subject, grade in lecturer.grades.items():
+        subject_python_lecturer.append(grade)
+l_python = sum(sum(subject_python_lecturer,[]))/len(sum(subject_python_lecturer,[]))  
+
+print(Vasya_reviewer)
+print(f'Средняя оценка за домашее задание по "Python" всех студентов: {s_python}') 
+print(f'Средняя оценка за лецкии в рамках курса "Python": {l_python}') 
